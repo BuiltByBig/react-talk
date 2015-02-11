@@ -16,7 +16,7 @@ class: center, middle
 
 # Intro to React
 
-Why I love React and you will too.
+Why I love React and you should too.
 
 ---
 
@@ -140,7 +140,6 @@ React.render(<HelloMessage message="World" />, document.body);
 
 - The internal state of a component.
 - Can set initial state with `getInitialState`.
-- Parent components should be the only ones concerned with state.
 
 ```js
 var ToggleText = React.createClass({
@@ -172,13 +171,18 @@ class: center, middle
 
 ---
 
-# One-Way Data Flow
-
----
-
 # Component Lifecycle
 
-[Read more here](http://facebook.github.io/react/docs/component-specs.html).
+Below are the [lifecycle events](http://facebook.github.io/react/docs/component-specs.html) of a React component.
+
+0. `componentWillMount`: Good place to call `setState` or other prep work on first creation.
+1. `componentDidMount`: Invoked once when component is after initial render. DOM is available now.
+2. `componentWillReceiveProps`: Invoked when a component is receiving new props (not called for the initial render).
+3. `shouldComponentUpdate`: Return false if you don't want component to update.
+4. `componentWillUpdate`: Preparation for updating.
+5. `render`: Render the JSX code into HTML and attach to the DOM.
+6. `componentDidUpdate`: Operate on the DOM (not called on initial render)
+7. `componentWillUnmount`: Perform cleanup like invalidating timers or cleaning up DOM or event listeners.
 
 ---
 
@@ -191,7 +195,7 @@ class: center, middle
 ```js
 var MyMixin = {
   magicStuff: function () {
-    // Magic goes here...
+    // Magic goes here... (can refence `this` of component)
   }
 };
 
@@ -211,9 +215,31 @@ Here is an example mixin: [SetIntervalMixin](https://gist.github.com/danawoodman
 # Gotchas
 
 - Components must return one HTML element/component.
+
+```js
+render: function () {
+  // INVALID:  Will raise error:
+  return (
+    <MyComponent />
+    <AnotherComponent />
+  );
+}
+```
+
 - Getting over JSX and markup + JavaScript in your app (easier than you'd think).
-- Mutating DOM/lifecycle events can be confusing at first, but is very straight forward.
+- Mutating DOM/lifecycle events can be confusing at first, but quick to learn.
 - You must have a build step if you use JSX (which you don't have to use).
+- Architecting your app is up to you. React isn't a framework, and that's a good thing.
+
+---
+
+# Best Practices
+
+- Parent components should be the only ones concerned with state.
+- Prefer `props` over `state` where possible.
+- For things outside of React, clean up DOM/event listeners on `componentWillUnmount`.
+- Use an architecture like Flux/Reflux to manage your app state, not `state`.
+- Small components are good and are easy to create. Make/use reusable components where possible. Here are [some existing components](http://react-components.com/).
 
 ---
 
