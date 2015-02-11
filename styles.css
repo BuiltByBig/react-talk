@@ -1,0 +1,25 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+h1, h2, h3 {
+  font-family: 'Roboto Slab', serif;
+  font-weight: 700;
+}
+a {
+  color: #00bdd6;
+  text-decoration: none;
+}
+li {
+  margin: 8px 0;
+}
+.remark-code,
+.remark-inline-code {
+  font-family: 'Fira Mono', monospace;
+}
+.remark-inline-code {
+  color: #b21c1c;
+}
+.hljs-default .hljs {
+  font-size: 14px;
+  padding: 15px 20px;
+}

@@ -1,0 +1,253 @@
+<html>
+  <head>
+    <title>React.js Talk</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Fira+Mono' rel='stylesheet' type='text/css'>
+    <link href='styles.css' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+![react](react.png)
+
+# Intro to React
+
+Why I love React and you will too.
+
+---
+
+# What is React?
+
+- React is a JavaScript user interface library.
+- It can be thought of as the "V" in MVC.
+- When `state` or `props` change, the component is (intelligently) re-rendered.
+
+---
+
+# Who's using it?
+
+![facebook](facebook.png)
+![atom](atom.png)
+![reddit](reddit.png)
+
+![khan-academy](khan-academy.png)
+![instagram](instagram.png)
+![netflix](netflix.png)
+
+[Many, many others](https://github.com/facebook/react/wiki/Sites-Using-React), including:
+
+- AirBnB
+- Pivotal Tracker
+- Atlassian
+- Yahoo, The New York Times, ZenDesk, SmugMug, Venmo, etc...
+
+---
+
+# Why you should use React
+
+- Virtual DOM diffing === Ultra fast, intelligent DOM manipulation.
+- Easy to combine components together to make complex applications.
+- One-way data binding is easy to reason about.
+- Quick to learn but powerful.
+- Can be used alone or with other frameworks (Backbone, Angular, Reflux, etc...).
+- Server side rendering as first class citizen (e.g. Isomorphic web apps).
+- Coupling of HTML (JSX) and JavaScript is actually a Good Thing &trade;
+- Good [documentation](http://facebook.github.io/react/docs/getting-started.html)
+- Intuitive event handling (no more jQuery needed).
+- Memory efficient because of automatic cleanup.
+
+---
+
+# A Simple Example
+
+```jsx
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello World</title>
+  </head>
+  <body>
+    <script src="path/to/react.js"></script>
+    <script src="path/to/JSXTransformer.js"></script>
+    <script type="text/jsx">
+
+      var HelloMessage = React.createClass({
+        render: function () {
+          return <h1>Hello {this.props.message}!</h1>;
+        }
+      });
+
+      React.render(<HelloMessage message="World" />, document.body);
+
+    </script>
+  </body>
+</html>
+```
+
+See some more [simple examples here](https://gist.github.com/danawoodman/9cfddb1a0c934a35f31a).
+
+---
+
+# JSX in 30 seconds
+
+- XML-like syntax that compiles to JavaScript.
+- Can use `JSXCompiler.js` in browser to run JSX, but need a build step in production.
+- Pass in any type of JavaScript object to component (strings, booleans, arrays, objects, functions, etc...).
+
+```js
+<Nav color="blue"><Profile>click</Profile></Nav>;
+```
+
+Compiles to:
+
+```js
+React.createElement(
+  Nav,
+  { color: 'blue' },
+  React.createElement(Profile, null, 'click')
+);
+```
+
+[Learn more about JSX](http://facebook.github.io/react/docs/jsx-in-depth.html).
+
+---
+
+# Props
+
+- Props are attributes you pass into a component.
+- They are sent once in a component but never change.
+- A component re-renders when it's props change.
+- Can validate props with `propTypes` and set defaults with `getDefaultProps`.
+- You should prefer props over state where possible (easier to reason about)!
+
+```js
+var HelloMessage = React.createClass({
+  render: function () {
+    return <h1>Hello {this.props.message}!</h1>;
+  }
+});
+
+React.render(<HelloMessage message="World" />, document.body);
+```
+
+---
+
+# State
+
+- The internal state of a component.
+- Can set initial state with `getInitialState`.
+- Parent components should be the only ones concerned with state.
+
+```js
+var ToggleText = React.createClass({
+  getInitialState: function () {
+    return { showDefault: true };
+  },
+  toggle: function (e) {
+    e.preventDefault();
+    this.setState({ showDefault: !this.state.showDefault })
+  },
+  render: function () {
+    var message = this.state.showDefault ? this.props.default : this.props.alt;
+    return (
+      <div>
+        <h1>Hello {message}!</h1>
+        <a href="" onClick={this.toggle}>Toggle</a>
+      </div>
+    );
+  }
+});
+React.render(<ToggleText default="World" alt="Mars" />, document.body);
+```
+
+---
+
+class: center, middle
+
+# [A Complete(ish) Example](https://gist.github.com/danawoodman/9cfddb1a0c934a35f31a#file-6-whole-shebang-js)
+
+---
+
+# One-Way Data Flow
+
+---
+
+# Component Lifecycle
+
+[Read more here](http://facebook.github.io/react/docs/component-specs.html).
+
+---
+
+# Mixins
+
+- Allow you to encapsulate common behavior.
+- Can call all React lifecycle events (without conflict).
+- Just a JavaScript object.
+
+```js
+var MyMixin = {
+  magicStuff: function () {
+    // Magic goes here...
+  }
+};
+
+var MyComponent = React.createClass({
+  mixins: [MyMixin],
+  render: function () {
+    this.magicStuff();
+    // Do something cool...
+  }
+});
+```
+
+Here is an example mixin: [SetIntervalMixin](https://gist.github.com/danawoodman/eeec163d0a06b97d3a78)
+
+---
+
+# Gotchas
+
+- Components must return one HTML element/component.
+- Getting over JSX and markup + JavaScript in your app (easier than you'd think).
+- Mutating DOM/lifecycle events can be confusing at first, but is very straight forward.
+- You must have a build step if you use JSX (which you don't have to use).
+
+---
+
+# What now?
+
+- Check out [React](http://facebook.github.io/react/)!
+- [Starter app yeoman generator](https://github.com/BuiltByBig/generator-big-starter): React, WebPack, fb-flo, mocha, reflux, react-bootstrap and more
+- [Reflux](https://github.com/spoike/refluxjs): Easy to use "Flux" architecture
+- [React Router](https://github.com/rackt/react-router): Component based routing in React
+- [React Chrome extension](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en): Develop in style
+- [React Bootstrap](http://react-bootstrap.github.io/): Bootrap, Reactified
+- [Facebook React Conf 2015 videos](https://www.youtube.com/playlist?list=PLb0IAmt7-GS1cbw4qonlQztYV1TAW0sCr)
+- [React Native](https://code.facebook.com/videos/786462671439502/react-js-conf-2015-keynote-introducing-react-native-/): Native mobile apps using React, coming soon!
+
+---
+
+class: center, middle
+
+# Thanks!
+
+![thanks](thanks.gif)
+
+**Dana Woodman**
+
+[dana@danawoodman.com](mailto:dana@danawoodman.com)
+
+<http://danawoodman.com>
+
+
+    </textarea>
+    <script src="http://gnab.github.io/remark/downloads/remark-latest.min.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
